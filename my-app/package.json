@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "start": "ng serve --proxy-config proxy.conf.json",
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

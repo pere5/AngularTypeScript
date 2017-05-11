@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 public class GetController {
 
-    @GetMapping(value="/whatever")
+    @GetMapping(value="/api/whatever")
     public Map<String, String> getCategorySuggestions(@RequestBody(required=false) Map<String, String> whatever) {
         Map<String, String> lol = new HashMap<>();
         lol.put("fdsjhf", "sdd");
