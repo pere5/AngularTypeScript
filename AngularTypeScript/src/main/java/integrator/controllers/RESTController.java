@@ -44,6 +44,7 @@ public class RESTController {
 
     @PutMapping(value="/api/heroes/{id}")
     public boolean updateHero(@PathVariable("id") int heroId, @RequestBody Hero newHero) {
+        newHero.setId(heroId);
         for (int i = 0; i < HERO_LIST.size() ; i++) {
             Hero hero = HERO_LIST.get(i);
             if (hero.getId() == newHero.getId()) {
