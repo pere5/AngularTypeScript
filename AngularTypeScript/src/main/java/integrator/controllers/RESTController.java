@@ -69,4 +69,15 @@ public class RESTController {
     public boolean deleteHero(@PathVariable("id") int heroId) {
         return HERO_LIST.remove(new Hero(heroId, ""));
     }
+
+    @GetMapping("/api/heroes/")
+    public List<Hero> getHeroesByName(@RequestParam(value="name", defaultValue="") String name) {
+        List<Hero> resultList = new ArrayList<>();
+        for (Hero hero : HERO_LIST) {
+            if (hero.getName().contains(name)) {
+                resultList.add(hero);
+            }
+        }
+        return resultList;
+    }
 }
