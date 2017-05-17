@@ -1,28 +1,31 @@
 package integrator.models;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by pere5 on 2017-05-13.
  */
 public class Hero {
-    private int id;
+
+    @Id private String id;
     private String name;
 
     public Hero() {
-        id = ThreadLocalRandom.current().nextInt(1, Integer.MAX_VALUE);
+        id = String.valueOf(ThreadLocalRandom.current().nextInt(1, 9999));
     }
 
-    public Hero(int id, String name) {
+    public Hero(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -32,28 +35,5 @@ public class Hero {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Hero)) return false;
-
-        Hero hero = (Hero) o;
-
-        return getId() == hero.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return getId();
-    }
-
-    @Override
-    public String toString() {
-        return "Hero{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

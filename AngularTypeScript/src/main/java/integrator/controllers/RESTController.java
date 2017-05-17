@@ -1,83 +1,50 @@
 package integrator.controllers;
 
 import integrator.models.Hero;
+import integrator.models.HeroRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
-
+/**
+ * Created by pere5 on 2017-05-17.
+ */
 @RestController
 public class RESTController {
 
-    private static List<Hero> HERO_LIST = new ArrayList<>();
-
-    static {
-        HERO_LIST.add(new Hero(11, "Mr. Nice"));
-        HERO_LIST.add(new Hero(12, "Narco"));
-        HERO_LIST.add(new Hero(13, "Bombaso"));
-        HERO_LIST.add(new Hero(14, "Celeritas"));
-        HERO_LIST.add(new Hero(15, "Magenta"));
-        HERO_LIST.add(new Hero(16, "Rubberman"));
-        HERO_LIST.add(new Hero(17, "Dynama"));
-        HERO_LIST.add(new Hero(18, "Dr IQ"));
-        HERO_LIST.add(new Hero(19, "Magma"));
-        HERO_LIST.add(new Hero(20, "Tornado"));
-    }
+    @Autowired
+    private HeroRepository repository;
 
     @GetMapping(value="/api/heroes")
     public List<Hero> getHeroes() {
-        return HERO_LIST;
+        return repository.findAll();
     }
 
     @GetMapping(value="/api/heroes/{id}")
-    public Hero getHero(@PathVariable("id") int heroId) {
-        for (Hero hero: HERO_LIST) {
-            if (hero.getId() == heroId) {
-                return hero;
-            }
-        }
-        return null;
+    public Hero getHero(@PathVariable("id") String heroId) {
+        return repository.findById(heroId);
     }
 
     @PutMapping(value="/api/heroes/{id}")
-    public boolean updateHero(@PathVariable("id") int heroId, @RequestBody Hero newHero) {
+    public Hero updateHero(@PathVariable("id") String heroId, @RequestBody Hero newHero) {
         newHero.setId(heroId);
-        for (int i = 0; i < HERO_LIST.size() ; i++) {
-            Hero hero = HERO_LIST.get(i);
-            if (hero.getId() == newHero.getId()) {
-                HERO_LIST.set(i, newHero);
-                return true;
-            }
-        }
-        return false;
+        return repository.save(newHero);
     }
 
     @PostMapping(value="/api/heroes")
     public Hero addHero(@RequestBody Hero newHero) {
-        if (HERO_LIST.contains(newHero)) {
-            return null;
-        } else {
-            HERO_LIST.add(newHero);
-            return newHero;
-        }
+        return repository.save(newHero);
     }
 
     @DeleteMapping(value="/api/heroes/{id}")
-    public boolean deleteHero(@PathVariable("id") int heroId) {
-        return HERO_LIST.remove(new Hero(heroId, ""));
+    public void deleteHero(@PathVariable("id") String heroId) {
+        repository.delete(heroId);
     }
 
     @GetMapping("/api/heroes/")
     public List<Hero> getHeroesByName(@RequestParam(value="name", defaultValue="") String name) {
-        List<Hero> resultList = new ArrayList<>();
-        for (Hero hero : HERO_LIST) {
-            if (hero.getName().contains(name)) {
-                resultList.add(hero);
-            }
-        }
-        return resultList;
+        return repository.findUsersByRegexpName(name);
     }
 }
