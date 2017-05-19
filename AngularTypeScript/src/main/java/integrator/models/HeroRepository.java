@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.Query;
 public interface HeroRepository extends MongoRepository<Hero, String> {
 
     @Query("{ 'name' : { $regex: ?0 } }")
-    List<Hero> findUsersByRegexpName(String regexp);
+    List<Hero> findHeroesByRegexpName(String regexp);
     Hero findById(String id);
 
 }

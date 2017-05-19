@@ -45,6 +45,6 @@ public class RESTController {
 
     @GetMapping("/api/heroes/")
     public List<Hero> getHeroesByName(@RequestParam(value="name", defaultValue="") String name) {
-        return repository.findUsersByRegexpName(name);
+        return repository.findHeroesByRegexpName(name);
     }
 }
